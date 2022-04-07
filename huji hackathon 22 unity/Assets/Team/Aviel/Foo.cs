@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Team.Ethan;
 using UnityEditor.UI;
@@ -7,17 +8,36 @@ using static Team.Ethan.Communicator;
 
 class Foo : MonoBehaviour
 {
-    // public Contact[] CallNext(Contact[] contacts)
-    // {
-    //     var contactsList = Enumerable.ToList(contacts);
-    //     contactsList.Sort(Contact a,Contact b) => 
-    //         a.Communicators[ComTypes.VoiceCall].DaysToNextInterval().CompareTo(b.Communicators[ComTypes.VoiceCall].DaysToNextInterval());
-    //     foreach (var contact in contacts)
-    //     {
-    //         var voiceCall = contact.Communicators[ComTypes.VoiceCall];
-    //         if (voiceCall.Interval == 0)
-    //             break;
-    //         for (int i = 0; isortedArray[]
-    //     }
-    // }
+    public List<Contact> CallNext(Contact[] contacts)
+    {
+        List<Contact> contactsList = new List<Contact>();
+        List<Contact> onlineContactsList = new List<Contact>();
+        List<Contact> onlineNeverContactsList = new List<Contact>();
+        foreach (Contact contact in contacts)
+        {
+            var voiceCall = contact.Communicators[ComTypes.VoiceCall];
+            if (voiceCall.Interval > 0 & contact.IsOnline == false)
+            {
+                contactsList.Add(contact);
+            }
+            else
+            {
+                if (voiceCall.Interval > 0 & contact.IsOnline == true)
+                {
+                    onlineContactsList.Add(contact);
+                }
+                else
+                {
+                    onlineNeverContactsList.Add(contact);
+                }
+            }
+        }
+        List<Contact> sortedOnlineContacts =
+            onlineContactsList.OrderBy(o => o.Communicators[ComTypes.VoiceCall].DaysToNextInterval()).ToList();
+        List<Contact> sortedContacts =
+            contactsList.OrderBy(o => o.Communicators[ComTypes.VoiceCall].DaysToNextInterval()).ToList();
+        onlineContactsList.AddRange(onlineNeverContactsList);
+        sortedContacts.AddRange(onlineContactsList);
+        return sortedContacts;
+    }
 }
