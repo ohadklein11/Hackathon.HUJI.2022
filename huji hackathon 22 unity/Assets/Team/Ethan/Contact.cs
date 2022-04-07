@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using static Team.Ethan.Communicator;
 using Random = System.Random;
 
@@ -9,37 +8,32 @@ namespace Team.Ethan
 {
     public class Contact
     {
+        // constants
+        private const int DailyLoss = 3;
+        
         //unique identifiers
         private string _name;
         private string _phoneNumber;
 
         private Dictionary<ComTypes, Communicator> _communicators = 
                                                     new Dictionary<ComTypes, Communicator>();
-        private Sprite _avatar;
+        private Texture _avatar;
         private int _health;
+        private DateTime _lastHealthUpdate;
         private bool _shouldNotify;
         private bool _isOnline;
 
-        public Contact(string name, string phoneNumber, Sprite avatar)
+        public Contact(string name, string phoneNumber, Texture avatar)
         {
             _phoneNumber = phoneNumber;
             _name = name;
             _avatar = avatar;
             _health = 100; // the health of your relationship
+            _lastHealthUpdate = DateTime.Today;
             _shouldNotify = false;
             _isOnline = false;
-
-            CreateDefaultComs();
         }
-
-        private void CreateDefaultComs()
-        {
-            foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
-            {
-                _communicators.Add(comType, new Communicator(comType));
-            }
-        }
-
+        
         public void AddCommunicator(ComTypes comType, int interval)
         {
             _communicators.Add(comType, new Communicator(comType, interval));
@@ -56,7 +50,20 @@ namespace Team.Ethan
 
         public int UpdateHealth()
         {
-            //TODO: Aviel is doing this
+            foreach (var com in _communicators.Values)
+            {
+                var daysToGo = com.DaysToNextInterval();
+                
+                if (daysToGo + com.DaysSubtracted < 0)
+                {
+                    var deduction = -(daysToGo + com.DaysSubtracted);
+                    _health -= deduction * DailyLoss;
+                    com.DaysSubtracted += deduction;
+                    
+                    if (_health < 0)
+                        _health = 0;
+                }
+            }
 
             return _health;
         }
@@ -81,7 +88,7 @@ namespace Team.Ethan
             get { return _communicators; }
         }
 
-        public Sprite Avatar
+        public Texture Avatar
         {
             get => _avatar;
             set => _avatar = value;
