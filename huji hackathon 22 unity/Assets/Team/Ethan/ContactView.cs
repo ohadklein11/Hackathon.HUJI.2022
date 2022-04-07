@@ -4,15 +4,15 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using static Team.Ethan.Communicator;
+using static Team.Ethan.NotificationController;
 using Button = UnityEngine.UIElements.Button;
 using Image = UnityEngine.UIElements.Image;
-
 
 namespace Team.Ethan
 {
     public class ContactView : MonoBehaviour
     {
-        private Contact contact;
+        private Contact _contact;
         
         public Text nameTxt;
         public Image avatarImg;
@@ -35,8 +35,8 @@ namespace Team.Ethan
         // Start is called before the first frame update
         void Start()
         {
-            nameTxt.text = contact.Name;
-            avatarImg.image = contact.Avatar;
+            nameTxt.text = _contact.Name;
+            avatarImg.image = _contact.Avatar;
             UpdateNotifyBtn();
             UpdateHealthBar();
             UpdateOnlineStatus();
@@ -53,7 +53,7 @@ namespace Team.Ethan
         {
             foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
             {
-                _comTxtObjsDict[comType].text = GetDaysToGoText(contact.Communicators[comType].FormattedDaysToGo());
+                _comTxtObjsDict[comType].text = GetDaysToGoText(_contact.Communicators[comType].FormattedDaysToGo());
             }
         }
 
@@ -81,14 +81,11 @@ namespace Team.Ethan
 
         public void OnClickNotifyBtn()
         {
-            if (contact.ShouldNotify)
-            {
-                //TODO: prepare notification 
-            }
+            _contact.ShouldNotify = !_contact.ShouldNotify;
             
-            else
+            if (_contact.ShouldNotify)
             {
-                //TODO: remove notification 
+                var thread = NotifyWhenOnline(_contact);
             }
             
             UpdateNotifyBtn();
@@ -96,17 +93,18 @@ namespace Team.Ethan
 
         private void UpdateHealthBar()
         {
-            healthBar.value = contact.UpdateHealth();
+            healthBar.value = _contact.UpdateHealth();
         }
         
         private void UpdateOnlineStatus()
         {
-            isOnlineText.text = contact.IsOnline ? "Online" : "Offline";
+            //TODO: get online status from server
+            isOnlineText.text = _contact.IsOnline ? "Online" : "Offline";
         }
         
         private void UpdateNotifyBtn()
         {
-            toggleNotifyBtn.text = contact.ShouldNotify ? "Notify" : "Don't Notify";
+            toggleNotifyBtn.text = _contact.ShouldNotify ? "Notify" : "Don't Notify";
         }
     }
 }

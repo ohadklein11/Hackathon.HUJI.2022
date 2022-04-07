@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UIElements.Image;
 using static Team.Ethan.Communicator;
-using static Team.Ethan.ContactsDataManager;
 
 namespace Team.Ethan
 {
@@ -13,7 +12,7 @@ namespace Team.Ethan
     {
         private Dictionary<string, Contact> contactsCollection;
         private Contact contact;
-        private Texture defaultImage; //TODO: get default image
+        private Texture defaultImage;
         
         public Image avatarImg;
         
@@ -40,11 +39,15 @@ namespace Team.Ethan
         // Start is called before the first frame update
         void Start()
         {
+            
             _dropdowns = new Dropdown[] {phoneNumberDropdown, voiceCallDropdown, videoCallDropdown, meetDropdown};
             _comFldObjsDict = new Dictionary<ComTypes,TextField>() {{ComTypes.Text, textMessageFld}, 
                 {ComTypes.VoiceCall, voiceCallFld}, 
                 {ComTypes.VideoCall, videoCallFld}, 
                 {ComTypes.Meeting, meetFld}};
+            
+            //TODO: get default image
+            defaultImage = null;
             
             if (contact != null)
                 PrepareEditMode();
@@ -99,7 +102,7 @@ namespace Team.Ethan
             
             foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
             {
-                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value]);
+                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value], DateTime.Now);
             }
             
             contactsCollection.Add(name, newContact);
