@@ -17,19 +17,13 @@ class Foo : MonoBehaviour
         {
             var voiceCall = contact.Communicators[ComTypes.VoiceCall];
             if (voiceCall.Interval > 0 & contact.IsOnline == false)
-            {
                 contactsList.Add(contact);
-            }
             else
             {
                 if (voiceCall.Interval > 0 & contact.IsOnline == true)
-                {
                     onlineContactsList.Add(contact);
-                }
                 else
-                {
                     onlineNeverContactsList.Add(contact);
-                }
             }
         }
         List<Contact> sortedOnlineContacts =
