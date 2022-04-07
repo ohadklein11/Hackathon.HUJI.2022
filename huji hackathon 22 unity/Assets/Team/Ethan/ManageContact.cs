@@ -98,12 +98,12 @@ namespace Team.Ethan
             
             foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
             {
-                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value]);
+                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value], DateTime.Now);
             }
             
             contactsCollection.Add(name, newContact);
             
-            //TODO: save to database
+            ContactsDataManager.SaveContact(newContact);
         }
 
         private bool NameIsTaken(string contactName)

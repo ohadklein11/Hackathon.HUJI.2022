@@ -18,12 +18,12 @@ namespace Team.Ethan
         private int _interval; // in days. -1 means never.
         private int _daysSubtracted;
         
-        public Communicator(ComTypes comType, int interval)
+        public Communicator(ComTypes comType, int interval, DateTime lastComDate, int daysSubtracted = 0)
         {
-            _lastComDate = DateTime.Now;
+            _lastComDate = lastComDate;
             _comType = comType;
             _interval = interval;
-            _daysSubtracted = 0;
+            _daysSubtracted = daysSubtracted;
         }
         
         public int DaysToNextInterval()
