@@ -1,0 +1,21 @@
+contact fields:
+phone number (unique)
+name (unique)
+call_communicator
+text_communicator
+video_communicator
+meet_communicator
+contact_avatar
+circle_number
+should_notify
+is_online
+
+contact server fields:
+phone number
+is_online
+
+circle fields:
+number
+location
+num_of_contacts
+
