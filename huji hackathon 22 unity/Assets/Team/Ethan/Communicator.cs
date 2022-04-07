@@ -34,10 +34,10 @@ namespace Team.Ethan
             if (_interval == 0)
                 return -1;
             
-            TimeSpan interval = new TimeSpan(_interval*24);
-            DateTime next = _lastComDate.Add(interval);
+            var interval = new TimeSpan(_interval*24);
+            var next = _lastComDate.Add(interval);
 
-            int daysToGo = next.Subtract(DateTime.Now).Days;
+            var daysToGo = next.Subtract(DateTime.Now).Days;
        
             return daysToGo > 0 ? daysToGo : 0;
         }
