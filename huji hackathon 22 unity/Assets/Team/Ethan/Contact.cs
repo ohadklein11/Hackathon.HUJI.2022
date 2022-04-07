@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Team.Ethan.Communicator;
 using Random = System.Random;
-using Image = UnityEngine.UIElements.Image;
 
 namespace Team.Ethan
 {
@@ -51,12 +50,9 @@ namespace Team.Ethan
 
         public int UpdateHealth()
         {
-            foreach (var pair in _communicators)
+            foreach (var com in _communicators.Values)
             {
-                var com = pair.Value;
-                var interval = new TimeSpan(com.Interval * 24);
-                var next = com.LastComDate.Add(interval);
-                var daysToGo = next.Subtract(DateTime.Now).Days;
+                var daysToGo = com.DaysToNextInterval();
                 
                 if (daysToGo + com.DaysSubtracted < 0)
                 {
