@@ -23,7 +23,7 @@ namespace Team.Ethan
         {
             var myHeaders = new string[]
             {
-                "Name", "Number", "Health", "Should Notify",
+                "Name", "Phone Number", "Circle Number", "Health", "Should Notify",
                 "Text Interval","Text Date","Text Days Subtracted",
                 "Voice Interval","Voice Date","Voice Days Subtracted",
                 "Video Interval","Video Date","Video Days Subtracted",
@@ -50,7 +50,8 @@ namespace Team.Ethan
                     avatar.LoadImage(rawData);
                     
                     var index = 0;
-                    var contact = new Contact(values[index++], values[index++], avatar);
+                    var contact = new Contact(values[index++], values[index++], 
+                                                avatar, Convert.ToInt32(values[index++]));
                     contact.Health = Convert.ToInt32(values[index++]);
                     contact.ShouldNotify = Convert.ToBoolean(values[index++]);
 
@@ -69,8 +70,8 @@ namespace Team.Ethan
 
         public static void SaveContact(Contact contact)
         {
-            var dataList = new List<string>() {contact.Name, contact.PhoneNumber, 
-                contact.Health.ToString(), contact.ShouldNotify.ToString()};
+            var dataList = new List<string>() {contact.Name, contact.PhoneNumber, contact.CircleNum.ToString(),
+                                                contact.Health.ToString(), contact.ShouldNotify.ToString()};
 
             foreach (var com in contact.Communicators.Values)
             {

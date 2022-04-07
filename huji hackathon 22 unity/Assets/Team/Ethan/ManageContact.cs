@@ -12,7 +12,7 @@ namespace Team.Ethan
     {
         private Dictionary<string, Contact> contactsCollection;
         private Contact contact;
-        private Texture defaultImage; //TODO: get default image
+        private Texture defaultImage;
         
         public Image avatarImg;
         
@@ -39,11 +39,15 @@ namespace Team.Ethan
         // Start is called before the first frame update
         void Start()
         {
+            
             _dropdowns = new Dropdown[] {phoneNumberDropdown, voiceCallDropdown, videoCallDropdown, meetDropdown};
             _comFldObjsDict = new Dictionary<ComTypes,TextField>() {{ComTypes.Text, textMessageFld}, 
                 {ComTypes.VoiceCall, voiceCallFld}, 
                 {ComTypes.VideoCall, videoCallFld}, 
                 {ComTypes.Meeting, meetFld}};
+            
+            //TODO: get default image
+            defaultImage = null;
             
             if (contact != null)
                 PrepareEditMode();
