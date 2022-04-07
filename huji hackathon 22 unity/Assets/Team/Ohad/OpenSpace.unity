@@ -223,6 +223,12 @@ MonoBehaviour:
   zoomStep: 0
   minCamSize: 0
   maxCamSize: 0
+  mapRenderer: {fileID: 1273961912}
+  speed: 4
+  MINSCALE: 2
+  MAXSCALE: 5
+  minPinchSpeed: 5
+  varianceInDistances: 5
 --- !u!1 &1273961911
 GameObject:
   m_ObjectHideFlags: 0
