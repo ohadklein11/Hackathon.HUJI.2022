@@ -19,7 +19,6 @@ namespace Team.Ethan
                                                     new Dictionary<ComTypes, Communicator>();
         private Texture _avatar;
         private int _health;
-        private DateTime _lastHealthUpdate;
         private bool _shouldNotify;
         private bool _isOnline;
 
@@ -29,7 +28,6 @@ namespace Team.Ethan
             _name = name;
             _avatar = avatar;
             _health = 100; // the health of your relationship
-            _lastHealthUpdate = DateTime.Today;
             _shouldNotify = false;
             _isOnline = false;
         }
@@ -64,7 +62,7 @@ namespace Team.Ethan
                         _health = 0;
                 }
             }
-
+            
             return _health;
         }
         
