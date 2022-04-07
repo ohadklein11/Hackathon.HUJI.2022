@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-public class CameraMovement : MonoBehaviour
+public class MoveCamera : MonoBehaviour
 {
     [SerializeField] 
     private Camera cam;
@@ -30,7 +30,7 @@ public class CameraMovement : MonoBehaviour
     private Vector2 curDist = new Vector2(0,0); 
     private float speedTouch0 = 0.0F; 
     private float speedTouch1 = 0.0F;
-
+    
     private void Awake()
     {
         print("awake");
@@ -40,8 +40,9 @@ public class CameraMovement : MonoBehaviour
         mapMinY = mapRenderer.transform.position.y - mapRenderer.bounds.size.y / 2f;
         mapMaxY = mapRenderer.transform.position.y + mapRenderer.bounds.size.y / 2f;
     }
-    
-    private void Update()
+
+    // Update is called once per frame
+    void Update()
     {
         print("update");
         PanCamera();
@@ -89,43 +90,7 @@ public class CameraMovement : MonoBehaviour
         
         // PinchZoom();
     }
-
-    private void PinchZoom()
-    {
-        if (Input.touchCount == 2 && Input.GetTouch(0).phase == TouchPhase.Moved && Input.GetTouch(1).phase == TouchPhase.Moved) 
-        {
-            curDist = Input.GetTouch(0).position - Input.GetTouch(1).position; //current distance between finger touches
-            prevDist = ((Input.GetTouch(0).position - Input.GetTouch(0).deltaPosition) - (Input.GetTouch(1).position - Input.GetTouch(1).deltaPosition)); //difference in previous locations using delta positions
-            touchDelta = curDist.magnitude - prevDist.magnitude;
-            speedTouch0 = Input.GetTouch(0).deltaPosition.magnitude / Input.GetTouch(0).deltaTime;
-            speedTouch1 = Input.GetTouch(1).deltaPosition.magnitude / Input.GetTouch(1).deltaTime;
-            if ((touchDelta + varianceInDistances <= 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
-            {
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView + (1 * speed),15,90);
-            }
-            if ((touchDelta +varianceInDistances > 1) && (speedTouch0 > minPinchSpeed) && (speedTouch1 > minPinchSpeed))
-            {
-                cam.fieldOfView = Mathf.Clamp(cam.fieldOfView - (1 * speed),15,90);
-            }
-        } 
-    }
-
-    public void ZoomIn()
-    {
-        float newSize = cam.orthographicSize - zoomStep;
-        cam.orthographicSize = Mathf.Clamp(newSize, minCamSize, maxCamSize);
-        
-        cam.transform.position = ClampCamera(cam.transform.position);
-    }
     
-    public void ZoomOut()
-    {
-        float newSize = cam.orthographicSize + zoomStep;
-        cam.orthographicSize = Mathf.Clamp(newSize, minCamSize, maxCamSize);
-
-        cam.transform.position = ClampCamera(cam.transform.position);
-    }
-
     private Vector3 ClampCamera(Vector3 targetPosition)
     {
         float camHeight = cam.orthographicSize;
