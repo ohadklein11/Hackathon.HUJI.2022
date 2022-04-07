@@ -20,21 +20,15 @@ public class MoveCamera : MonoBehaviour
     
     private Vector3 dragOrigin;
 
-    public int speed = 4; 
-    public float MINSCALE = 2.0F; 
-    public float MAXSCALE = 5.0F; 
-    public float minPinchSpeed = 5.0F; 
-    public float varianceInDistances = 5.0F; 
-    private float touchDelta = 0.0F; 
-    private Vector2 prevDist = new Vector2(0,0); 
-    private Vector2 curDist = new Vector2(0,0); 
-    private float speedTouch0 = 0.0F; 
-    private float speedTouch1 = 0.0F;
+    float touchesPrevPosDifference, touchesCurPosDifference, zoomModifier;
+
+    Vector2 firstTouchPrevPos, secondTouchPrevPos;
+
+    [SerializeField]
+    float zoomModifierSpeed = 0.1f;
     
     private void Awake()
     {
-        print("awake");
-        
         mapMinX = mapRenderer.transform.position.x - mapRenderer.bounds.size.x / 2f;
         mapMaxX = mapRenderer.transform.position.x + mapRenderer.bounds.size.x / 2f;
         mapMinY = mapRenderer.transform.position.y - mapRenderer.bounds.size.y / 2f;
@@ -44,34 +38,22 @@ public class MoveCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print("update");
-        PanCamera();
+        if (Input.touchCount == 2)
+        {
+            PinchZoom();
+        }
+        else
+        {
+            PanCamera();
+        }
+
     }
     
     private void PanCamera()
     {
-        print("methode works");
-        print(DetectBGDrag.mouseDown);
-
-        // // save position of mouse in world space when drag starts (first time clicked)
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
-        // }
-        
-        // // calculate distance between drag origin and new position if it is still held down
-        // if (Input.GetMouseButton(0))
-        // {
-        //     Vector3 difference = dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
-        //
-        //     // move the camera by that distance
-        //     cam.transform.position = ClampCamera(cam.transform.position) + difference;
-        // }
-        
         // save position of mouse in world space when drag starts (first time clicked)
         if (DetectBGDrag.mouseDown)
         {
-            print("allow move");
             dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
             DetectBGDrag.mouseDown = false;
             DetectBGDrag.AllowBgMovement = true;
@@ -80,15 +62,11 @@ public class MoveCamera : MonoBehaviour
         // calculate distance between drag origin and new position if it is still held down
         if (DetectBGDrag.AllowBgMovement)
         {
-            print("move");
-
             Vector3 difference = dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
         
             // move the camera by that distance
             cam.transform.position = ClampCamera(cam.transform.position) + difference;
         }
-        
-        // PinchZoom();
     }
     
     private Vector3 ClampCamera(Vector3 targetPosition)
@@ -105,5 +83,29 @@ public class MoveCamera : MonoBehaviour
         float newY = Mathf.Clamp(targetPosition.y, minY, maxY);
 
         return new Vector3(newX, newY, targetPosition.z);
+    }
+    
+    private void PinchZoom()
+    {
+        if (Input.touchCount == 2) {
+            Touch firstTouch = Input.GetTouch (0);
+            Touch secondTouch = Input.GetTouch (1);
+
+            firstTouchPrevPos = firstTouch.position - firstTouch.deltaPosition;
+            secondTouchPrevPos = secondTouch.position - secondTouch.deltaPosition;
+
+            touchesPrevPosDifference = (firstTouchPrevPos - secondTouchPrevPos).magnitude;
+            touchesCurPosDifference = (firstTouch.position - secondTouch.position).magnitude;
+
+            zoomModifier = (firstTouch.deltaPosition - secondTouch.deltaPosition).magnitude * zoomModifierSpeed;
+
+            if (touchesPrevPosDifference > touchesCurPosDifference)
+                cam.orthographicSize += zoomModifier/10;
+            if (touchesPrevPosDifference < touchesCurPosDifference)
+                cam.orthographicSize -= zoomModifier/10;
+			
+        }
+
+        cam.orthographicSize = Mathf.Clamp (cam.orthographicSize, 5f, 100f);
     }
 }
