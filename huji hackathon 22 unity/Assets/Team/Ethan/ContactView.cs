@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Team.Ethan.Communicator;
 using Button = UnityEngine.UIElements.Button;
+using Image = UnityEngine.UIElements.Image;
+
 
 namespace Team.Ethan
 {
@@ -28,14 +30,14 @@ namespace Team.Ethan
         public Text videoCallTxt;
         public Text meetTxt;
 
-        private IDictionary<ComTypes,Text> _comTxtObjsDict;
+        private Dictionary<ComTypes,Text> _comTxtObjsDict;
 
         // Start is called before the first frame update
         void Start()
         {
             nameTxt.text = contact.Name;
-            avatarImg.GetComponent<Image>().sprite = contact.Avatar;
-            toggleNotifyBtn.text = contact.ShouldNotify ? "Notify" : "Don't Notify";
+            avatarImg.image = contact.Avatar;
+            UpdateNotifyBtn();
             UpdateHealthBar();
             UpdateOnlineStatus();
             
@@ -51,7 +53,7 @@ namespace Team.Ethan
         {
             foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
             {
-                _comTxtObjsDict[comType].text = GetDaysToGoText(contact.Communicators[comType].DaysToNextInterval());
+                _comTxtObjsDict[comType].text = GetDaysToGoText(contact.Communicators[comType].FormattedDaysToGo());
             }
         }
 
@@ -77,6 +79,21 @@ namespace Team.Ethan
             UpdateOnlineStatus();
         }
 
+        public void OnClickNotifyBtn()
+        {
+            if (contact.ShouldNotify)
+            {
+                //TODO: prepare notification 
+            }
+            
+            else
+            {
+                //TODO: remove notification 
+            }
+            
+            UpdateNotifyBtn();
+        }
+
         private void UpdateHealthBar()
         {
             healthBar.value = contact.UpdateHealth();
@@ -85,6 +102,11 @@ namespace Team.Ethan
         private void UpdateOnlineStatus()
         {
             isOnlineText.text = contact.IsOnline ? "Online" : "Offline";
+        }
+        
+        private void UpdateNotifyBtn()
+        {
+            toggleNotifyBtn.text = contact.ShouldNotify ? "Notify" : "Don't Notify";
         }
     }
 }
