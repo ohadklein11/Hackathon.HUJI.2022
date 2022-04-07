@@ -32,9 +32,9 @@ namespace Team.Ethan
             _isOnline = false;
         }
         
-        public void AddCommunicator(ComTypes comType, int interval)
+        public void AddCommunicator(ComTypes comType, int interval, DateTime lastComTime, int daysSubtracted=0)
         {
-            _communicators.Add(comType, new Communicator(comType, interval));
+            _communicators.Add(comType, new Communicator(comType, interval, lastComTime, daysSubtracted));
         }
 
         public void UpdateOnlineStatus()
@@ -78,7 +78,8 @@ namespace Team.Ethan
         
         public int Health
         {
-            get { return _health; }
+            get => _health;
+            set => _health = value;
         }
 
         public IDictionary<ComTypes, Communicator> Communicators

@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UIElements.Image;
 using static Team.Ethan.Communicator;
-using static Team.Ethan.ContactsDataManager;
 
 namespace Team.Ethan
 {
@@ -99,7 +98,7 @@ namespace Team.Ethan
             
             foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
             {
-                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value]);
+                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value], DateTime.Now);
             }
             
             contactsCollection.Add(name, newContact);
