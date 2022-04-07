@@ -4,6 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UI;
 using static Team.Ethan.Communicator;
+using static Team.Ethan.NotificationController;
 using Button = UnityEngine.UIElements.Button;
 using Image = UnityEngine.UIElements.Image;
 
@@ -81,14 +82,11 @@ namespace Team.Ethan
 
         public void OnClickNotifyBtn()
         {
+            contact.ShouldNotify = !contact.ShouldNotify;
+            
             if (contact.ShouldNotify)
             {
-                //TODO: prepare notification 
-            }
-            
-            else
-            {
-                //TODO: remove notification 
+                var thread = NotifyWhenOnline(contact);
             }
             
             UpdateNotifyBtn();
