@@ -8,9 +8,15 @@ public class DragContact : MonoBehaviour
     private bool moveAllowed;
     private Collider2D col;
 
+    private Vector2 touchBegin;
+    private Vector2 touchEnd;
+
+    private GameObject editPopUp;
+
     private void Awake()
     {
         col = GetComponent<Collider2D>();
+        editPopUp = GameObject.Find("Canvas").transform.Find("")
     }
 
     // Update is called once per frame
@@ -27,6 +33,8 @@ public class DragContact : MonoBehaviour
                 if (col == touchColl)
                 {
                     moveAllowed = true;
+                    touchBegin = touchPosition;
+                    // print(touchBegin);
                 }
             }
             
@@ -41,10 +49,18 @@ public class DragContact : MonoBehaviour
             if (touch.phase == TouchPhase.Ended)
             {
                 moveAllowed = false;
+                touchEnd = touchPosition;
+                // print(touchEnd);
+                // print(Vector2.Distance(touchBegin, touchEnd));
+            }
+            
+            // detect click
+            if (touchBegin == touchEnd)
+            {
+                print("click");
+                editPopUp.SetActive(true);
             }
             
         }
-
-        
     }
 }
