@@ -4,11 +4,12 @@ namespace Team.Ethan
 {
     public class Communicator
     {
+        private string[] names = new string[] {"Text", "Voice Call", "Video Call", "Meeting"};
         public enum ComTypes
         {
+            Text,
             VoiceCall,
             VideoCall,
-            Text,
             Meeting
         }
         
@@ -22,7 +23,12 @@ namespace Team.Ethan
             _comType = comType;
             _interval = interval;
         }
-        
+
+        public void UpdateComDate()
+        {
+            _lastComDate = DateTime.Now;
+        }
+
         public DateTime LastComDate
         {
             get => _lastComDate;
@@ -38,7 +44,10 @@ namespace Team.Ethan
             get => _interval;
             set => _interval = value;
         }
-        
-        
+
+        public string GetStringName()
+        {
+            return names[(int) _comType];
+        }
     }
 }
