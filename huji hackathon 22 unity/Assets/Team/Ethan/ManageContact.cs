@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.UIElements;
 using Image = UnityEngine.UIElements.Image;
 using static Team.Ethan.Communicator;
+using static Team.Ethan.ContactsDataManager;
 
 namespace Team.Ethan
 {
@@ -103,7 +104,7 @@ namespace Team.Ethan
             
             contactsCollection.Add(name, newContact);
             
-            //TODO: save to database
+            ContactsDataManager.SaveContact(newContact);
         }
 
         private bool NameIsTaken(string contactName)
