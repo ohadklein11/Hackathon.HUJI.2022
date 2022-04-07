@@ -10,13 +10,11 @@ public class DetectBGDrag : MonoBehaviour
 
     private void OnMouseDown()
     {
-        print("D");
         mouseDown = true;
     }
 
     private void OnMouseUp()
     {
-        print("U");
         AllowBgMovement = false;
     }
 }
