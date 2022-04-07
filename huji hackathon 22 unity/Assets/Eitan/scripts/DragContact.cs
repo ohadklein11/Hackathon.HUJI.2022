@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DragContact : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class DragContact : MonoBehaviour
     private void Awake()
     {
         col = GetComponent<Collider2D>();
-        editPopUp = GameObject.Find("Canvas").transform.Find("")
+        editPopUp = GameObject.Find("Canvas").transform.Find("editPopUp").gameObject;
     }
 
     // Update is called once per frame
@@ -34,7 +35,6 @@ public class DragContact : MonoBehaviour
                 {
                     moveAllowed = true;
                     touchBegin = touchPosition;
-                    // print(touchBegin);
                 }
             }
             
@@ -50,17 +50,15 @@ public class DragContact : MonoBehaviour
             {
                 moveAllowed = false;
                 touchEnd = touchPosition;
-                // print(touchEnd);
-                // print(Vector2.Distance(touchBegin, touchEnd));
+
+                // detect click
+                if (touchBegin == touchEnd)
+                {
+                    editPopUp.SetActive(true);
+                }
             }
-            
-            // detect click
-            if (touchBegin == touchEnd)
-            {
-                print("click");
-                editPopUp.SetActive(true);
-            }
-            
         }
     }
+
+
 }
