@@ -18,7 +18,7 @@ namespace Team.Ethan
         public Image avatarImg;
         public Button toggleNotifyBtn;
         public Text isOnlineText;
-        public ProgressBar healthBar;
+       // public ProgressBar healthBar;
 
         public Button textMessageBtn;
         public Button voiceCallBtn;
@@ -93,7 +93,7 @@ namespace Team.Ethan
 
         private void UpdateHealthBar()
         {
-            healthBar.value = _contact.UpdateHealth();
+         //   healthBar.value = _contact.UpdateHealth();
         }
         
         private void UpdateOnlineStatus()
