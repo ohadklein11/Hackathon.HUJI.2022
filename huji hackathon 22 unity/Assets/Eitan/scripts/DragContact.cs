@@ -15,12 +15,12 @@ public class DragContact : MonoBehaviour
     private Vector2 touchBegin;
     private Vector2 touchEnd;
 
-    private GameObject editPopUp;
+    public GameObject editPopUp;
 
     private void Awake()
     {
         col = GetComponent<Collider2D>();
-        editPopUp = GameObject.Find("Canvas").transform.Find("ohadPopUp").gameObject;
+        // editPopUp = GameObject.Find("Canvas").transform.Find("ohadPopUp").gameObject;
     }
 
     // Update is called once per frame
