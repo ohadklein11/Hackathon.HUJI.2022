@@ -18,9 +18,16 @@ namespace Team.Ohad
         public Text IsOnlineText;
         public GameObject SaveButton;
         public GameObject PhoneNumberObject;
+        
+        private string ohadPhone;
 
         private string phoneNumber;
-    
+
+        private void Awake()
+        {
+            phoneNumber = gameObject.name;
+        }
+
 
         private DatabaseReference dbReference;
         // Start is called before the first frame update
