@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "852102349654",
+    "project_id": "hackathonproject2022",
+    "storage_bucket": "hackathonproject2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852102349654:android:0a5050f9a8564c30aeccf7",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.hujihackathon22unity"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852102349654-m07e8nfg4sscshto7ob1doj6ep5rim6n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_tt3DsnDjy-kyMy0O6ohwOCvX0M0RhD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852102349654-m07e8nfg4sscshto7ob1doj6ep5rim6n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
