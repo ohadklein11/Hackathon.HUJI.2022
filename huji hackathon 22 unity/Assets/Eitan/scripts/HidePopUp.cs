@@ -9,7 +9,7 @@ public class HidePopUp : MonoBehaviour
 
     private void Awake()
     {
-        editPopUp = GameObject.Find("Canvas").transform.Find("editPopUp").gameObject;
+        editPopUp = GameObject.Find("Canvas").transform.Find("ohadPopUp").gameObject;
     }
 
     public void HidePoUp()

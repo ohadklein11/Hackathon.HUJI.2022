@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Team.Ethan;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DragContact : MonoBehaviour
 {
+    private Contact contact;
+    
     private bool moveAllowed;
     private Collider2D col;
 
@@ -17,7 +20,7 @@ public class DragContact : MonoBehaviour
     private void Awake()
     {
         col = GetComponent<Collider2D>();
-        editPopUp = GameObject.Find("Canvas").transform.Find("editPopUp").gameObject;
+        editPopUp = GameObject.Find("Canvas").transform.Find("ohadPopUp").gameObject;
     }
 
     // Update is called once per frame
@@ -55,6 +58,8 @@ public class DragContact : MonoBehaviour
                 if (touchBegin == touchEnd)
                 {
                     editPopUp.SetActive(true);
+                    // send Contact to popUp object
+                    // editPopUp.GetComponent<Team.Ethan.ContactView>().ContactInitializer();
                 }
             }
         }

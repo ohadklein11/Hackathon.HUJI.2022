@@ -106,5 +106,10 @@ namespace Team.Ethan
         {
             toggleNotifyBtn.text = _contact.ShouldNotify ? "Notify" : "Don't Notify";
         }
+
+        public void ContactInitializer(Contact contact)
+        {
+            _contact = contact;
+        }
     }
 }
