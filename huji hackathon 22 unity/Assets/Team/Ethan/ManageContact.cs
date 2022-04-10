@@ -10,58 +10,49 @@ namespace Team.Ethan
 {
     public class ManageContact : MonoBehaviour
     {
-        private Dictionary<string, Contact> contactsCollection = new Dictionary<string, Contact>();
+        private Dictionary<string, Contact> contactsCollection;
         private Contact contact;
         private Texture defaultImage;
         
-        public Text nameFld;
-        public Text phoneNumberFld;
-
-        public Dropdown textDropdown;
+        public Image avatarImg;
+        
+        public TextField nameFld;
+        public TextField phoneNumberFld;
+        public TextField textMessageFld;
+        public TextField voiceCallFld;
+        public TextField videoCallFld;
+        public TextField meetFld;
+        
+        public Dropdown phoneNumberDropdown;
         public Dropdown voiceCallDropdown;
         public Dropdown videoCallDropdown;
         public Dropdown meetDropdown;
 
         private Dropdown[] _dropdowns;
-        private Dictionary<ComTypes,Dropdown> _comFldObjsDict;
+        private Dictionary<ComTypes,TextField> _comFldObjsDict;
         private Dictionary<string,int> _intervalValues = new Dictionary<string, int>() 
-            {{"None",-1},{"Never", 0},{"Every Day",1},{"Every Two Days",2},{"Every Three Days",3},{"Every Four Days",4}
+            {{"Never", 0},{"Every Day",1},{"Every Two Days",2},{"Every Three Days",3},{"Every Four Days",4}
                 ,{"Every Five Days",5},{"Every Six Days",6},{"Every Week",7},{"Every Two Weeks",14},
                 {"Every Three Weeks",21},{"Every Month",31},{"Every Two Months",62},{"Every Three Months",92},
                 {"Every Six Months",183},{"Yearly",365}};
-
-        private void Awake()
-        {
-            nameFld = GameObject.Find("Canvas").transform.Find("popupAdd").transform.Find("name").
-                transform.Find("Text").gameObject.GetComponent<Text>();
-            phoneNumberFld = GameObject.Find("Canvas").transform.Find("popupAdd").transform.Find("phone").
-                transform.Find("Text").gameObject.GetComponent<Text>();
-            voiceCallDropdown = GameObject.Find("Canvas").transform.Find("popupAdd").
-                transform.Find("Dropdown voice").gameObject.GetComponent<Dropdown>();
-            textDropdown = GameObject.Find("Canvas").transform.Find("popupAdd").
-                transform.Find("Dropdown txt").gameObject.GetComponent<Dropdown>();
-            meetDropdown = GameObject.Find("Canvas").transform.Find("popupAdd").
-                transform.Find("Dropdown meet").gameObject.GetComponent<Dropdown>();
-            videoCallDropdown = GameObject.Find("Canvas").transform.Find("popupAdd").
-                transform.Find("Dropdown video").gameObject.GetComponent<Dropdown>();
-            
-        }
 
         // Start is called before the first frame update
         void Start()
         {
             
-            _dropdowns = new Dropdown[] {textDropdown, voiceCallDropdown, videoCallDropdown, meetDropdown};
-            _comFldObjsDict = new Dictionary<ComTypes,Dropdown>() {{ComTypes.Text, voiceCallDropdown}, 
-                {ComTypes.VoiceCall, videoCallDropdown}, 
-                {ComTypes.VideoCall, textDropdown}, 
-                {ComTypes.Meeting, meetDropdown}};
+            _dropdowns = new Dropdown[] {phoneNumberDropdown, voiceCallDropdown, videoCallDropdown, meetDropdown};
+            _comFldObjsDict = new Dictionary<ComTypes,TextField>() {{ComTypes.Text, textMessageFld}, 
+                {ComTypes.VoiceCall, voiceCallFld}, 
+                {ComTypes.VideoCall, videoCallFld}, 
+                {ComTypes.Meeting, meetFld}};
             
             //TODO: get default image
             defaultImage = null;
             
-            // avatarImg.image = defaultImage;
-
+            if (contact != null)
+                PrepareEditMode();
+            else
+                avatarImg.image = defaultImage;
             
             SetUpDropdownLists();
         }
@@ -83,36 +74,45 @@ namespace Team.Ethan
             }
         }
 
-        public void SaveContact()
+        private void PrepareEditMode()
         {
-            var contactName = nameFld.text;
-
-            if (NameIsTaken(contactName))
-            {
-                nameFld.text = "Name already in use";
-                return;
-            }
-            
-            var number = phoneNumberFld.text;
-            var newContact = new Contact(contactName, number, null);
+            nameFld.value = contact.Name;
+            avatarImg.image = contact.Avatar;
+            phoneNumberFld.value = contact.PhoneNumber;
+            var coms = contact.Communicators;
             
             foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
             {
-                var txt = _comFldObjsDict[comType].captionText.text;
-                if (txt == null)
-                    return;
-                newContact.AddCommunicator(comType, _intervalValues[txt], DateTime.Now);
+                _comFldObjsDict[comType].value = "Every" + coms[comType].Interval + "Days";
+            }
+        }
+
+        public void SaveContact()
+        {
+            var contactName = nameFld.value;
+
+            if (NameIsTaken(contactName))
+            {
+                nameFld.value = "Name already in use";
+                return;
+            }
+            
+            var number = phoneNumberFld.value;
+            var newContact = new Contact(contactName, number, avatarImg.image);
+            
+            foreach (ComTypes comType in Enum.GetValues(typeof(ComTypes)))
+            {
+                newContact.AddCommunicator(comType, _intervalValues[_comFldObjsDict[comType].value], DateTime.Now);
             }
             
             contactsCollection.Add(name, newContact);
             
-            //ContactsDataManager.SaveContact(newContact);
+            ContactsDataManager.SaveContact(newContact);
         }
 
         private bool NameIsTaken(string contactName)
         {
-            // return string.IsNullOrEmpty(contactName) || contactsCollection.ContainsKey(contactName);
-            return false;
+            return string.IsNullOrEmpty(contactName) || contactsCollection.ContainsKey(contactName);
         }
     }
 }
