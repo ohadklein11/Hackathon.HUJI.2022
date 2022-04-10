@@ -18,7 +18,6 @@ namespace Team.Ohad
         public Text IsOnlineText;
         public GameObject SaveButton;
         public GameObject PhoneNumberObject;
-        public GameObject IsOnlineObject;
         
         private string ohadPhone;
 
@@ -44,8 +43,7 @@ namespace Team.Ohad
             string json = JsonUtility.ToJson(newUser);
             phoneNumber = PhoneNumber.text;
             dbReference.Child("users").Child(phoneNumber).SetRawJsonValueAsync(json);
-
-            IsOnlineObject.SetActive(true);
+            
             SaveButton.SetActive(false);
             PhoneNumberObject.SetActive(false);
         }
