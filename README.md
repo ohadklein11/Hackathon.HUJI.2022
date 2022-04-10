@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="Images/logo.png"/>
+  <img src="images/logo.png" width="300"/>
   
  ![_alt text_](https://img.shields.io/badge/Platforms-android-blue??style=for-the-badge)
 
@@ -17,24 +17,12 @@ In today's fast-paced world, it is very difficult to remember and manage things 
 Our app helps by letting the user easily add contacts to an infinite space which allows visual organization as the user wishes - for example by different groups of family members or social circles. For each contact, the user can set reminders for when and how frequent to call, text or meet with him/her, and respectively receive notifications when the time to make a call/appointment is due. The user can also set an alarm for when the contact is free for a conversation.
   
 ## Screenshots
-
-  <h3>Gameplay:</h3>
 <p align="center">
- <img src="Images/Gameplay1.jpeg" width="400"/>
- <img src="Images/Gameplay3.jpeg" width="400"/>
- <img src="Images/Gameplay4.jpeg" width="400"/>
- <img src="Images/Gameplay5.jpeg" width="400"/>
+ <img src="images/main_screen.jpg" width="200"/>
+ <img src="images/contact_1.jpg" width="200"/>
+ <img src="images/contact_2.jpg" width="200"/>
+ <img src="images/new_contact.jpg" width="200"/>
 </p>
-
-  <h3>Pause Menu:</h3>
- <p align="center">
-  <img src="Images/PauseMenu.jpeg" width="400"/>
- </p>
- 
-  <h3>Game over:</h3>
- <p align="center"> 
-  <img src="Images/GameOverMenu.jpeg" width="400"/>
- </p>
 
 ## Teammates 
 - Ohad Klein
