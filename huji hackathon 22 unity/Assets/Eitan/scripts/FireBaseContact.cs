@@ -25,7 +25,6 @@ public class FireBaseContact : MonoBehaviour
         void Start()
         {
             dbReference = FirebaseDatabase.GetInstance("https://hackathonproject2022-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
-            print("started");
         }
 
         public void CreateUser()
