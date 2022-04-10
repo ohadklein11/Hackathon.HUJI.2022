@@ -8,42 +8,29 @@ using UnityEngine.UI;
 using Unity.Notifications.Android;
 using UnityEngine.AI;
 
-namespace Team.Ohad
-{
-    public class DatabaseManager : MonoBehaviour
+public class FireBaseContact : MonoBehaviour
     {
         public InputField PhoneNumber;
-        public Toggle IsOnline;
         public Toggle IsAlerted;
-        public Text IsOnlineText;
         public GameObject SaveButton;
         public GameObject PhoneNumberObject;
+        public GameObject IsAlertedObject;
         
         private string ohadPhone;
 
         private string phoneNumber;
-
-        private void Awake()
-        {
-            phoneNumber = gameObject.name;
-        }
-
 
         private DatabaseReference dbReference;
         // Start is called before the first frame update
         void Start()
         {
             dbReference = FirebaseDatabase.GetInstance("https://hackathonproject2022-default-rtdb.europe-west1.firebasedatabase.app/").RootReference;
-            print("started");
         }
 
         public void CreateUser()
         {
-            FirebaseUser newUser = new FirebaseUser( false);
-            string json = JsonUtility.ToJson(newUser);
             phoneNumber = PhoneNumber.text;
-            dbReference.Child("users").Child(phoneNumber).SetRawJsonValueAsync(json);
-            
+            IsAlertedObject.SetActive(true);
             SaveButton.SetActive(false);
             PhoneNumberObject.SetActive(false);
         }
@@ -58,19 +45,6 @@ namespace Team.Ohad
                 
                 onCallback.Invoke(snapshot.Value.ToString());
             }
-        }
-
-        public void GetUserInfo()
-        {
-            StartCoroutine(GetIsOnline((string isonline) =>
-            {
-                IsOnlineText.text = "Available: " + isonline;
-            }));
-        }
-
-        public void UpdateIsOnline()
-        {
-            dbReference.Child("users").Child(phoneNumber).SetValueAsync(IsOnline.isOn);
         }
 
         public void AlertUser()
@@ -100,7 +74,7 @@ namespace Team.Ohad
 
             var notification = new AndroidNotification();
             notification.Title = "A friend is available!";
-            notification.Text = phoneNumber + " is available!";
+            notification.Text = "Ohad is available!";
             notification.FireTime = DateTime.Now;
 
             var id = AndroidNotificationCenter.SendNotification(notification, "channel_id");
@@ -133,9 +107,5 @@ namespace Team.Ohad
             {
                 SendNotif();
             }
-            
-            IsOnlineText.text = "Available: " + isAvailable;
-            ;
         }
     }
-}
